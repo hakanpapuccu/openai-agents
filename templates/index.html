@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Arama Asistanı</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sol Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <button id="newChatBtn" class="new-chat-btn">
+                    <i class="bi bi-plus-lg"></i> Yeni sohbet
+                </button>
+            </div>
+            <div class="sidebar-content">
+                <div class="history-title">Sohbet Geçmişi</div>
+                <div id="chatHistory" class="chat-history">
+                    <!-- Geçmiş sohbetler burada listelenecek -->
+                    <div class="history-item active">
+                        <i class="bi bi-chat-left-text"></i>
+                        <span>Yeni sohbet</span>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Kullanıcı</span>
+                </div>
+                <button id="sidebarToggleBtn" class="sidebar-toggle">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Ana İçerik -->
+        <div class="main-content">
+            <!-- Chat Başlık -->
+            <div class="chat-header">
+                <button id="mobileSidebarBtn" class="mobile-sidebar-btn">
+                    <i class="bi bi-list"></i>
+                </button>
+                <h1>Web Arama Asistanı</h1>
+                <div class="header-actions">
+                    <button id="clearChatBtn" class="action-btn" title="Sohbeti Temizle">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat Görüşmesi -->
+            <div class="chat-container">
+                <div id="chatMessages" class="chat-messages">
+                    <div class="message-row bot">
+                        <div class="avatar">
+                            <i class="bi bi-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                <p>Merhaba! Size nasıl yardımcı olabilirim? İstediğiniz konuda arama yapabilirim.</p>
+                                <p class="small text-muted mt-2">İpucu: Detaylı sorular daha iyi cevaplar almanızı sağlar.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Yükleniyor göstergesi -->
+                <div id="loading" class="loading-indicator d-none">
+                    <div class="typing-indicator">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <!-- Input Alanı -->
+                <div class="input-area">
+                    <form id="searchForm" class="input-form">
+                        <div class="input-container">
+                            <div class="input-actions">
+                                <button type="button" class="action-menu-btn" title="Daha fazla">
+                                    <i class="bi bi-plus"></i>
+                                </button>
+                            </div>
+                            <textarea id="searchQuery" class="input-field" rows="1" placeholder="Bir şeyler sorun..." required></textarea>
+                            <button type="button" class="web-search-btn" title="Web'de arama yap">
+                                <i class="bi bi-search"></i>
+                            </button>
+                            <button type="submit" class="send-btn" title="Gönder">
+                                <i class="bi bi-send-fill"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <div class="input-footer">
+                        <span class="small text-muted">ChatGPT hata yapabilir. Önemli bilgileri kontrol edin.</span>
+                    </div>
+                    <div id="error" class="error-message d-none"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Arama sonuçları için modal -->
+    <div class="modal fade" id="searchResultsModal" tabindex="-1" aria-labelledby="searchResultsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="searchResultsModalLabel">
+                        <i class="bi bi-search me-2"></i>Web Arama Sonuçları
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="searchResults"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html> 

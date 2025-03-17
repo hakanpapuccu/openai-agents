@@ -1,0 +1,645 @@
+/* Genel Stiller */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Söhne', 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    background-color: white;
+    color: #353740;
+    overflow: hidden;
+}
+
+:root {
+    --sidebar-width: 260px;
+    --sidebar-collapsed-width: 0px;
+    --primary-color: #19c37d;
+    --hover-color: #0da569;
+    --text-color: #1e1e1e;
+    --text-secondary: #8e8ea0;
+    --background-primary: white;
+    --background-secondary: #f7f7f8;
+    --background-tertiary: #202123;
+    --border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Arayüz Düzeni */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* -------- Sidebar Stili -------- */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #202123;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.3s ease;
+    overflow: hidden;
+}
+
+.sidebar-collapsed {
+    width: var(--sidebar-collapsed-width);
+}
+
+.sidebar-header {
+    padding: 8px 12px 12px;
+}
+
+.new-chat-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #00a67e;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.new-chat-btn:hover {
+    background-color: var(--hover-color);
+}
+
+.sidebar-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 8px;
+}
+
+.history-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 16px 10px 6px;
+}
+
+.chat-history {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.history-item {
+    padding: 10px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    transition: background-color 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.history-item:hover {
+    background-color: #2e2f33;
+}
+
+.history-item.active {
+    background-color: #343541;
+    color: white;
+}
+
+.sidebar-footer {
+    padding: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.sidebar-toggle {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-toggle:hover {
+    color: white;
+}
+
+/* -------- Ana İçerik Stili -------- */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    background-color: white;
+}
+
+.chat-header {
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--background-primary);
+}
+
+.chat-header h1 {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+    color: #202123;
+    flex: 1;
+    text-align: center;
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    color: #6e6e80;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.action-btn:hover {
+    background-color: var(--background-secondary);
+    color: var(--text-color);
+}
+
+.mobile-sidebar-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+/* -------- Sohbet Alanı Stili -------- */
+.chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+
+.message-row {
+    display: flex;
+    padding: 20px calc(10% + 40px);
+    animation: fadeIn 0.3s ease;
+}
+
+.message-row.user {
+    background-color: white;
+}
+
+.message-row.bot {
+    background-color: #f7f7f8;
+}
+
+.avatar {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    margin-right: 16px;
+    flex-shrink: 0;
+}
+
+.message-row.user .avatar {
+    background-color: #974dff;
+}
+
+.message-row.bot .avatar {
+    background-color: var(--primary-color);
+}
+
+.message-content {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.message-bubble {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #353740;
+}
+
+.message-bubble p {
+    margin: 0 0 12px;
+}
+
+.message-bubble p:last-child {
+    margin-bottom: 0;
+}
+
+.message-bubble pre {
+    background-color: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 12px;
+    overflow-x: auto;
+    margin: 12px 0;
+}
+
+.message-bubble code {
+    font-family: 'Söhne Mono', Menlo, Monaco, Consolas, monospace;
+    font-size: 14px;
+    background-color: #f3f4f6;
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+.message-bubble .search-results-link {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 8px 16px;
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.message-bubble .search-results-link:hover {
+    background-color: var(--hover-color);
+}
+
+/* -------- Yükleniyor Göstergesi -------- */
+.loading-indicator {
+    padding: 20px calc(10% + 40px);
+    background-color: #f7f7f8;
+    display: flex;
+    align-items: center;
+}
+
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    margin-left: 44px;
+}
+
+.typing-indicator span {
+    height: 8px;
+    width: 8px;
+    float: left;
+    margin: 0 2px;
+    background-color: #8e8ea0;
+    display: block;
+    border-radius: 50%;
+    opacity: 0.4;
+    animation: typing 1s infinite;
+}
+
+.typing-indicator span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0% {
+        transform: translateY(0px);
+        opacity: 0.4;
+    }
+    50% {
+        transform: translateY(-7px);
+        opacity: 0.9;
+    }
+    100% {
+        transform: translateY(0px);
+        opacity: 0.4;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* -------- Giriş Alanı Stili -------- */
+.input-area {
+    padding: 10px 50px 20px;
+    background-color: white;
+    border-top: 1px solid #f1f1f1;
+    margin: 0 40px;
+}
+
+.input-form {
+    margin-bottom: 10px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.input-container {
+    position: relative;
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    padding: 10px 45px 10px 15px;
+    display: flex;
+    align-items: center;
+}
+
+.input-field {
+    background: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    color: var(--text-color);
+    font-size: 16px;
+    line-height: 1.5;
+    max-height: 200px;
+    resize: none;
+    overflow-y: auto;
+    font-family: inherit;
+}
+
+.input-field::placeholder {
+    color: #8e8ea0;
+}
+
+.send-btn {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background-color: transparent;
+    color: #8e8ea0;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.send-btn:hover {
+    background-color: #f1f1f1;
+    color: #353740;
+}
+
+.send-btn[disabled] {
+    color: #d9d9e3;
+    cursor: not-allowed;
+}
+
+.input-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+    color: #8e8ea0;
+    font-size: 12px;
+    max-width: 800px;
+    margin: 8px auto 0;
+}
+
+.error-message {
+    color: #d9534f;
+    background-color: #f2dede;
+    border-radius: 6px;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 14px;
+    max-width: 800px;
+    margin: 10px auto 0;
+}
+
+/* -------- Modal Stili -------- */
+.modal-content {
+    background-color: white;
+    color: #353740;
+    border: none;
+    border-radius: 10px;
+}
+
+.modal-header {
+    border-bottom: 1px solid #f1f1f1;
+    padding: 16px;
+}
+
+.modal-title {
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.modal-body {
+    padding: 20px;
+    background-color: white;
+}
+
+.modal-footer {
+    border-top: 1px solid #f1f1f1;
+    padding: 16px;
+}
+
+.btn-secondary {
+    background-color: #f0f0f0;
+    border: none;
+    color: #353740;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.btn-secondary:hover {
+    background-color: #e5e5e5;
+}
+
+/* Arama Sonuçları Stili */
+#searchResults .result-item {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+#searchResults .result-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+#searchResults .result-number {
+    display: inline-block;
+    margin-right: 8px;
+    font-size: 14px;
+    color: #8e8ea0;
+}
+
+#searchResults .result-title {
+    color: #1a73e8;
+    text-decoration: none;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+#searchResults .result-title:hover {
+    text-decoration: underline;
+}
+
+#searchResults .result-url {
+    color: #5f6368;
+    font-size: 14px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+#searchResults .result-snippet {
+    color: #353740;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Duyarlı tasarım */
+@media (max-width: 768px) {
+    .message-row {
+        padding: 20px;
+    }
+    
+    .loading-indicator {
+        padding: 20px;
+    }
+    
+    .input-area {
+        padding: 10px 20px 20px;
+        margin: 0;
+    }
+    
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        z-index: 1000;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        width: var(--sidebar-width);
+    }
+    
+    .sidebar.show {
+        transform: translateX(0);
+    }
+    
+    .mobile-sidebar-btn {
+        display: block;
+    }
+    
+    .sidebar-toggle {
+        display: none;
+    }
+}
+
+/* Web arama buton stili */
+.web-search-btn {
+    position: absolute;
+    right: 48px;
+    bottom: 8px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: #8e8ea0;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.web-search-btn:hover {
+    background-color: #f1f1f1;
+    color: #353740;
+}
+
+/* İnput footer action menü stili */
+.input-actions {
+    position: absolute;
+    left: 8px;
+    bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.action-menu-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: #8e8ea0;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.action-menu-btn:hover {
+    background-color: #f1f1f1;
+    color: #353740;
+} 
